@@ -1,0 +1,8 @@
+name: BedwarsAddon
+version: ${project.version}
+main: spigot.greg.bwaddon.Main
+authors: [PuRe_Greg]
+commands:
+  playmusic:
+    description: Heal Yourself or Heal Others
+
