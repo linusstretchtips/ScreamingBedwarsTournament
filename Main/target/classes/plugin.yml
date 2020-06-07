@@ -1,9 +1,12 @@
 name: BedwarsAddon
 version: 1.0-SNAPSHOT
-main: spigot.greg.bwaddon.Main
+main: spigot.greg.bwaddon.BwAddon
 authors: [PuRe_Greg]
-depend: [NoteBlockAPI]
+depend: [Bedwars]
 commands:
-  playmusic:
-    description: Heal Yourself or Heal Others
+  customshopgui:
+        description: OpenscustomShop
+        usage: /customshopgui
+        permission: tournament
+        permission-message: HEY!, Sorry but you Havnt got Permission to do this Yet!
 
