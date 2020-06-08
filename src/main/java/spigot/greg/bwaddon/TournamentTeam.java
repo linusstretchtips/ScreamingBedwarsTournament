@@ -10,6 +10,10 @@ public class TournamentTeam {
     private List<UUID> players = new ArrayList<>();
     private boolean alive = true;
 
+    public TournamentTeam(String teamName) {
+        this.teamName = teamName;
+    }
+
     public RunningTeam currentInGameTeam;
     public Game currentGame;
 

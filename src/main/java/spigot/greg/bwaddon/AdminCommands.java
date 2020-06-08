@@ -1,5 +1,7 @@
 package spigot.greg.bwaddon;
 
+import org.bukkit.Bukkit;
+import org.bukkit.OfflinePlayer;
 import org.bukkit.command.CommandSender;
 import org.screamingsandals.bedwars.commands.BaseCommand;
 
@@ -31,16 +33,39 @@ public class AdminCommands extends BaseCommand {
             commandSender.sendMessage("/bw tournament clear - Clears tournament settings");
             commandSender.sendMessage("TODO: ability to save tournament for restoring it later");
         } else if (list.size() >= 1) {
-            if (list.get(0).equalsIgnoreCase("name")) {
-
-            } else if (list.get(0).equalsIgnoreCase("addteam")) {
-
-            } else if (list.get(0).equalsIgnoreCase("join")) {
-
+            if (list.get(0).equalsIgnoreCase("name") && list.size() > 1) {
+                BwAddon.getTournament().setName(list.get(1));
+                commandSender.sendMessage("§aYay, you made it! It's now §7" + list.get(1));
+            } else if (list.get(0).equalsIgnoreCase("addteam") && list.size() > 1) {
+                if (!BwAddon.getTournament().hasTeam(list.get(1))) {
+                    BwAddon.getTournament().addTeam(new TournamentTeam(list.get(1)));
+                    commandSender.sendMessage("§aNew motherfuckers are now part of the tournament:§7 " + list.get(1));
+                } else {
+                    commandSender.sendMessage("§cThese motherfuckers are already part of the tournament:§7 " + list.get(1));
+                }
+            } else if (list.get(0).equalsIgnoreCase("join") && list.size() > 2) {
+                if (BwAddon.getTournament().hasTeam(list.get(1))) {
+                    OfflinePlayer player = Bukkit.getOfflinePlayer(list.get(2));
+                    BwAddon.getTournament().getTeam(list.get(1)).addPlayer(player.getUniqueId());
+                    commandSender.sendMessage("§cMotherfucker §7" + player.getName() + " (" + player.getUniqueId() + ") is now part of team §7" + list.get(1));
+                } else {
+                    commandSender.sendMessage("§cThese motherfuckers have never been in this tournament:§7 " + list.get(1));
+                }
             } else if (list.get(0).equalsIgnoreCase("leave")) {
-
-            } else if (list.get(0).equalsIgnoreCase("removeteam")) {
-
+                if (BwAddon.getTournament().hasTeam(list.get(1))) {
+                    OfflinePlayer player = Bukkit.getOfflinePlayer(list.get(2));
+                    BwAddon.getTournament().getTeam(list.get(1)).removePlayer(player.getUniqueId());
+                    commandSender.sendMessage("§cMotherfucker §7" + player.getName() + " (" + player.getUniqueId() + ") is no longer part of team §7" + list.get(1));
+                } else {
+                    commandSender.sendMessage("§cThese motherfuckers have never been in this tournament:§7 " + list.get(1));
+                }
+            } else if (list.get(0).equalsIgnoreCase("removeteam") && list.size() > 2) {
+                if (BwAddon.getTournament().hasTeam(list.get(1))) {
+                    BwAddon.getTournament().removeTeam(BwAddon.getTournament().getTeam(list.get(1)));
+                    commandSender.sendMessage("§aThese motherfuckers are no longer playing this tournament:§7 " + list.get(1));
+                } else {
+                    commandSender.sendMessage("§cThese motherfuckers have never been in this tournament:§7 " + list.get(1));
+                }
             } else if (list.get(0).equalsIgnoreCase("phase") && list.size() > 1) {
                 if (list.get(1).equalsIgnoreCase("add")) {
 
