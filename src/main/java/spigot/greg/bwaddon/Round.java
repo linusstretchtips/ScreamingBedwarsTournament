@@ -73,4 +73,19 @@ public class Round {
     public void setWinner(TournamentTeam winner) {
         this.winner = winner;
     }
+
+    public boolean couldRun() {
+        for (Round parent : dependsOn) {
+            if (parent.getWinner() == null) {
+                return false;
+            }
+        }
+        return true;
+    }
+
+    public void resolveDependencies() {
+        for (Round parent : dependsOn) {
+            addTeam(parent.getWinner());
+        }
+    }
 }

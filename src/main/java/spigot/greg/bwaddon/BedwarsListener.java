@@ -4,12 +4,14 @@ import org.bukkit.Bukkit;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.server.PluginEnableEvent;
+import org.bukkit.scheduler.BukkitRunnable;
 import org.screamingsandals.bedwars.api.Team;
 import org.screamingsandals.bedwars.api.events.*;
 import org.screamingsandals.bedwars.api.game.Game;
 import org.screamingsandals.bedwars.api.game.GameStatus;
 
 import java.util.ArrayList;
+import java.util.UUID;
 
 public class BedwarsListener implements Listener {
     @EventHandler
@@ -89,6 +91,20 @@ public class BedwarsListener implements Listener {
                             t.getPlayers().forEach(uuid -> {
                                 Bukkit.getPlayer(uuid).sendMessage("§6[BW Tournament] §aCongratulations! Your team won the match and can continue!");
                             });
+                            if (round.isFinalRound()) {
+                                Bukkit.broadcastMessage("§6[BW Tournament] §aTeam §7" + t.getTeamName() + "§a won this tournament!");
+                                String players = "";
+                                for (UUID uuid : t.getPlayers()) {
+                                    if (!players.equals("")) {
+                                        players += ", ";
+                                    }
+                                    players += Bukkit.getPlayer(uuid).getName();
+                                }
+                                Bukkit.broadcastMessage("§6[BW Tournament] §aHeroes of this tournament: §7" + players);
+                                Bukkit.broadcastMessage("§6[BW Tournament] §cThank you for visiting this tournament! If you are insterested in this tournaments,");
+                                Bukkit.broadcastMessage("§6[BW Tournament] §cyou can support us on our patreon: §7https://www.patreon.com/screamingsandals");
+                                Bukkit.broadcastMessage("§3Scream!");
+                            }
                         }
                         t.currentGame = null;
                         t.currentInGameTeam = null;
@@ -120,6 +136,10 @@ public class BedwarsListener implements Listener {
 
     @EventHandler
     public void afterRebuild(BedwarsPostRebuildingEvent event) {
-
+        Bukkit.getScheduler().runTaskLater(BwAddon.getInstance(), () -> {
+            if (BwAddon.getTournament().isActive()) {
+                BwAddon.getTournament().getRunningTournament().runAllPossibleMatches();
+            }
+        }, 20L);
     }
 }

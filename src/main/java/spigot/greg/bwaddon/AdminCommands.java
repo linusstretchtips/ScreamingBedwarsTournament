@@ -33,12 +33,16 @@ public class AdminCommands extends BaseCommand {
             commandSender.sendMessage("/bw tournament start - Starts the tournament");
             commandSender.sendMessage("/bw tournament stop - Stops the tournament");
             commandSender.sendMessage("/bw tournament clear - Clears tournament settings");
+            commandSender.sendMessage("/bw tournament forceRoundLoad - If something went wrong and tournament just stops, use this command!");
             commandSender.sendMessage("TODO: ability to save tournament for restoring it later");
             return true;
         } else if (list.size() >= 1) {
             if (BwAddon.getTournament().isActive()) {
                 if (list.get(0).equalsIgnoreCase("stop")) {
                     BwAddon.getTournament().stopTournament();
+                    return true;
+                } else if (list.get(0).equalsIgnoreCase("forceRoundLoad")) {
+                    BwAddon.getTournament().getRunningTournament().runAllPossibleMatches();
                     return true;
                 }
             } else {
@@ -161,7 +165,7 @@ public class AdminCommands extends BaseCommand {
     public void completeTab(List<String> completion, CommandSender commandSender, List<String> args) {
         if (args.size() == 1) {
             if (BwAddon.getTournament().isActive()) {
-                completion.addAll(Arrays.asList("stop"));
+                completion.addAll(Arrays.asList("stop", "forceRoundLoad"));
             } else {
                 completion.addAll(Arrays.asList("name", "addteam", "join", "leave", "removeteam", "start", "clear", "phase"));
             }

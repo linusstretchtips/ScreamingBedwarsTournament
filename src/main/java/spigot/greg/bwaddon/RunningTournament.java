@@ -2,6 +2,7 @@ package spigot.greg.bwaddon;
 
 import org.bukkit.Bukkit;
 import org.screamingsandals.bedwars.api.BedwarsAPI;
+import org.screamingsandals.bedwars.api.game.Game;
 import org.screamingsandals.bedwars.utils.Title;
 
 import java.util.*;
@@ -97,5 +98,34 @@ public class RunningTournament {
                 }
             });
         });
+
+        runAllPossibleMatches();
+    }
+
+    public void runAllPossibleMatches() {
+        for (Round round : new ArrayList<>(roundList)) {
+            if (round.couldRun() && getGameRound(round.getRunningGame()) == null) {
+                roundList.remove(round);
+                currentlyRunningRounds.add(round);
+                round.resolveDependencies();
+                String teams = "";
+                for (TournamentTeam team : round.getTeams()) {
+                    if (!teams.equals("")) {
+                        teams += ", ";
+                    }
+                    teams += team.getTeamName();
+                }
+                Bukkit.broadcastMessage("§6[BW Tournament] §aNew round is available! Waiting for: " + teams);
+            }
+        }
+    }
+
+    public Round getGameRound(Game game) {
+        for (Round round : currentlyRunningRounds) {
+            if (game == round.getRunningGame()) {
+                return round;
+            }
+        }
+        return null;
     }
 }
