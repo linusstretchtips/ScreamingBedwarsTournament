@@ -1,10 +1,10 @@
 package spigot.greg.bwaddon.listeners;
+
+import org.bukkit.Bukkit;
 import org.bukkit.Material;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.player.PlayerDropItemEvent;
-
-import org.bukkit.Bukkit;
 import org.screamingsandals.bedwars.api.BedwarsAPI;
 
 public class PlayerListener implements Listener {
