@@ -2,7 +2,7 @@ package spigot.greg.bwaddon;
 
 import org.bukkit.plugin.java.JavaPlugin;
 import org.screamingsandals.simpleinventories.listeners.InventoryListener;
-import spigot.greg.bwaddon.gameSelectNpc.customShop;
+import spigot.greg.bwaddon.gameSelectNpc.GameSelector;
 
 public final class BwAddon extends JavaPlugin {
     private static BwAddon plugin;
@@ -11,7 +11,7 @@ public final class BwAddon extends JavaPlugin {
     public void onEnable() {
         plugin = this;
         InventoryListener.init(this);
-        getCommand("customshopgui").setExecutor(new customShop(this));
+        getCommand("customshopgui").setExecutor(new GameSelector(this));
     }
 
     @Override
