@@ -14,6 +14,7 @@ public class Round {
     private Game runningGame;
     private Round nextRound;
     private TournamentTeam winner;
+    public int calculatedPlayers = 0;
 
     public Round(Phase phase, Game runningGame, boolean finalRound) {
         this.phase = phase;

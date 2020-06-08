@@ -7,6 +7,7 @@ import org.bukkit.event.server.PluginEnableEvent;
 import org.screamingsandals.bedwars.api.Team;
 import org.screamingsandals.bedwars.api.events.*;
 import org.screamingsandals.bedwars.api.game.Game;
+import org.screamingsandals.bedwars.api.game.GameStatus;
 
 import java.util.ArrayList;
 
@@ -23,11 +24,12 @@ public class BedwarsListener implements Listener {
         if (event.isCancelled()) {
             return;
         }
-        if (BwAddon.getTournament().isActive()) {
+        if (BwAddon.getTournament().isActive() && event.getGame().getStatus() == GameStatus.WAITING) {
             Game game = event.getGame();
             RunningTournament tournament = BwAddon.getTournament().getRunningTournament();
             tournament.currentlyRunningRounds.forEach(round -> {
                 if (round.getRunningGame() == event.getGame()) {
+                    event.setCancelMessage("§6You are not part of this round! You can return while game is running as spectator!");
                     event.setCancelled(true);
                     round.getTeams().forEach(tournamentTeam -> {
                         if (tournamentTeam.getPlayers().contains(event.getPlayer().getUniqueId())) {
@@ -62,7 +64,6 @@ public class BedwarsListener implements Listener {
             return;
         }
         if (BwAddon.getTournament().isActive()) {
-            Game game = event.getGame();
             RunningTournament tournament = BwAddon.getTournament().getRunningTournament();
             tournament.currentlyRunningRounds.forEach(round -> {
                 if (round.getRunningGame() == event.getGame()) {
@@ -102,7 +103,19 @@ public class BedwarsListener implements Listener {
 
     @EventHandler
     public void onGameTick(BedwarsGameTickEvent event) {
-
+        if (BwAddon.getTournament().isActive()) {
+            if (event.getStatus() == GameStatus.WAITING) {
+                RunningTournament tournament = BwAddon.getTournament().getRunningTournament();
+                tournament.currentlyRunningRounds.forEach(round -> {
+                    if (round.getRunningGame() == event.getGame()) {
+                        if (event.getGame().countConnectedPlayers() < round.calculatedPlayers) {
+                            event.setNextCountdown(event.getGame().getLobbyCountdown());
+                            event.setNextStatus(GameStatus.WAITING);
+                        }
+                    }
+                });
+            }
+        }
     }
 
     @EventHandler
