@@ -56,6 +56,19 @@ public class Tournament {
         }
     }
 
+    public boolean hasPhase(String name) {
+        return getPhase(name) != null;
+    }
+
+    public Phase getPhase(String name) {
+        for (Phase phase : phases) {
+            if (phase.getCodeName().equals(name)) {
+                return phase;
+            }
+        }
+        return null;
+    }
+
     public void removePhase(Phase phase) {
         if (phases.contains(phase)) {
             phases.remove(phase);

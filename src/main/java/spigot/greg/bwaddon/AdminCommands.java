@@ -27,15 +27,18 @@ public class AdminCommands extends BaseCommand {
             commandSender.sendMessage("/bw tournament phase addarena <code name> <arena> - Adds arena to phase");
             commandSender.sendMessage("/bw tournament phase removearena <code name> <arena> - Removes arena to phase");
             commandSender.sendMessage("/bw tournament phase parent <code name> <parent code name> - Sets parent phase (if no phase is parent, this is first phase)");
-            commandSender.sendMessage("/bw tournament phase teams <teams> - Sets number of teams per game");
+            commandSender.sendMessage("/bw tournament phase teams <code name> <teams> - Sets number of teams per game");
+            commandSender.sendMessage("/bw tournament phase remove <code name> - Removes phase");
             commandSender.sendMessage("/bw tournament start - Starts the tournament");
             commandSender.sendMessage("/bw tournament stop - Stops the tournament");
             commandSender.sendMessage("/bw tournament clear - Clears tournament settings");
             commandSender.sendMessage("TODO: ability to save tournament for restoring it later");
+            return true;
         } else if (list.size() >= 1) {
             if (list.get(0).equalsIgnoreCase("name") && list.size() > 1) {
                 BwAddon.getTournament().setName(list.get(1));
                 commandSender.sendMessage("§aYay, you made it! It's now §7" + list.get(1));
+                return true;
             } else if (list.get(0).equalsIgnoreCase("addteam") && list.size() > 1) {
                 if (!BwAddon.getTournament().hasTeam(list.get(1))) {
                     BwAddon.getTournament().addTeam(new TournamentTeam(list.get(1)));
@@ -43,6 +46,7 @@ public class AdminCommands extends BaseCommand {
                 } else {
                     commandSender.sendMessage("§cThese motherfuckers are already part of the tournament:§7 " + list.get(1));
                 }
+                return true;
             } else if (list.get(0).equalsIgnoreCase("join") && list.size() > 2) {
                 if (BwAddon.getTournament().hasTeam(list.get(1))) {
                     OfflinePlayer player = Bukkit.getOfflinePlayer(list.get(2));
@@ -51,6 +55,7 @@ public class AdminCommands extends BaseCommand {
                 } else {
                     commandSender.sendMessage("§cThese motherfuckers have never been in this tournament:§7 " + list.get(1));
                 }
+                return true;
             } else if (list.get(0).equalsIgnoreCase("leave")) {
                 if (BwAddon.getTournament().hasTeam(list.get(1))) {
                     OfflinePlayer player = Bukkit.getOfflinePlayer(list.get(2));
@@ -59,6 +64,7 @@ public class AdminCommands extends BaseCommand {
                 } else {
                     commandSender.sendMessage("§cThese motherfuckers have never been in this tournament:§7 " + list.get(1));
                 }
+                return true;
             } else if (list.get(0).equalsIgnoreCase("removeteam") && list.size() > 2) {
                 if (BwAddon.getTournament().hasTeam(list.get(1))) {
                     BwAddon.getTournament().removeTeam(BwAddon.getTournament().getTeam(list.get(1)));
@@ -66,24 +72,70 @@ public class AdminCommands extends BaseCommand {
                 } else {
                     commandSender.sendMessage("§cThese motherfuckers have never been in this tournament:§7 " + list.get(1));
                 }
-            } else if (list.get(0).equalsIgnoreCase("phase") && list.size() > 1) {
+                return true;
+            } else if (list.get(0).equalsIgnoreCase("phase") && list.size() > 2) {
                 if (list.get(1).equalsIgnoreCase("add")) {
-
-                } else if (list.get(1).equalsIgnoreCase("addarena")) {
-
-                } else if (list.get(1).equalsIgnoreCase("removearena")) {
-
-                } else if (list.get(1).equalsIgnoreCase("parent")) {
-
-                } else if (list.get(1).equalsIgnoreCase("teams")) {
-
+                    if (!BwAddon.getTournament().hasPhase(list.get(1))) {
+                        BwAddon.getTournament().addPhase(new Phase(list.get(1)));
+                        commandSender.sendMessage("§aNew phase is here:§7 " + list.get(1));
+                    } else {
+                        commandSender.sendMessage("§cThis phase already exists:§7 " + list.get(1));
+                    }
+                    return true;
+                } else if (list.get(1).equalsIgnoreCase("addarena") && list.size() > 3) {
+                    if (BwAddon.getTournament().hasPhase(list.get(1))) {
+                        BwAddon.getTournament().getPhase(list.get(1)).addPossibleArena(list.get(2));
+                        commandSender.sendMessage("§aArena §7" + list.get(2) + "§a was added to the phase: §7" + list.get(1));
+                    } else {
+                        commandSender.sendMessage("§cThis phase has never been in this tournament:§7 " + list.get(1));
+                    }
+                    return true;
+                } else if (list.get(1).equalsIgnoreCase("removearena") && list.size() > 3) {
+                    if (BwAddon.getTournament().hasPhase(list.get(1))) {
+                        BwAddon.getTournament().getPhase(list.get(1)).removePossibleArena(list.get(2));
+                        commandSender.sendMessage("§aArena §7" + list.get(2) + "§a was removed from the phase: §7" + list.get(1));
+                    } else {
+                        commandSender.sendMessage("§cThis phase has never been in this tournament:§7 " + list.get(1));
+                    }
+                    return true;
+                } else if (list.get(1).equalsIgnoreCase("parent") && list.size() > 3) {
+                    if (BwAddon.getTournament().hasPhase(list.get(1))) {
+                        BwAddon.getTournament().getPhase(list.get(1)).setParentPhase(list.get(2));
+                        commandSender.sendMessage("§aParent phase for phase §7" + list.get(1) + "§a is now §7" + list.get(2));
+                    } else {
+                        commandSender.sendMessage("§cThis phase has never been in this tournament:§7 " + list.get(1));
+                    }
+                    return true;
+                } else if (list.get(1).equalsIgnoreCase("teams") && list.size() > 3) {
+                    if (BwAddon.getTournament().hasPhase(list.get(1))) {
+                        BwAddon.getTournament().getPhase(list.get(1)).setTeams(Integer.parseInt(list.get(2)));
+                        commandSender.sendMessage("§aMaximum teams number was set to §7" + list.get(2) + "§a for phase §7" + list.get(1));
+                    } else {
+                        commandSender.sendMessage("§cThis phase has never been in this tournament:§7 " + list.get(1));
+                    }
+                    return true;
+                } else if (list.get(1).equalsIgnoreCase("remove")) {
+                    if (BwAddon.getTournament().hasPhase(list.get(1))) {
+                        BwAddon.getTournament().removePhase(BwAddon.getTournament().getPhase(list.get(1)));
+                        commandSender.sendMessage("§aThis phase was removed (note that you should update parents manually):§7 " + list.get(1));
+                    } else {
+                        commandSender.sendMessage("§cThis phase has never been in this tournament:§7 " + list.get(1));
+                    }
+                    return true;
                 }
             } else if (list.get(0).equalsIgnoreCase("start")) {
 
+                return true;
             } else if (list.get(0).equalsIgnoreCase("stop")) {
 
+                return true;
             } else if (list.get(0).equalsIgnoreCase("clear")) {
 
+                return true;
+            } else if (list.get(0).equalsIgnoreCase("save")) {
+                // implement this
+            } else if (list.get(0).equalsIgnoreCase("reload")) {
+                // implement this
             }
         }
         return false;
@@ -99,7 +151,7 @@ public class AdminCommands extends BaseCommand {
             }
         } else if (!BwAddon.getTournament().isActive() && args.size() > 1) {
             if (args.get(0).equalsIgnoreCase("phase")) {
-                completion.addAll(Arrays.asList("add", "addarena", "removearena", "parent", "teams"));
+                completion.addAll(Arrays.asList("add", "addarena", "removearena", "parent", "teams", "remove"));
             }
         }
     }
