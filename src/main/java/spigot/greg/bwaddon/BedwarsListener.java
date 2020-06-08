@@ -4,7 +4,6 @@ import org.bukkit.Bukkit;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.server.PluginEnableEvent;
-import org.bukkit.scheduler.BukkitRunnable;
 import org.screamingsandals.bedwars.api.Team;
 import org.screamingsandals.bedwars.api.events.*;
 import org.screamingsandals.bedwars.api.game.Game;
@@ -70,8 +69,10 @@ public class BedwarsListener implements Listener {
             tournament.currentlyRunningRounds.forEach(round -> {
                 if (round.getRunningGame() == event.getGame()) {
                     round.getTeams().forEach(tournamentTeam -> {
-                        if (!tournamentTeam.currentInGameTeam.equals(event.getTeam().getName())) {
-                            event.setCancelled(true);
+                        if (tournamentTeam.getPlayers().contains(event.getPlayer().getUniqueId())) {
+                            if (tournamentTeam.currentInGameTeam != null && !tournamentTeam.currentInGameTeam.equals(event.getTeam().getName())) {
+                                event.setCancelled(true);
+                            }
                         }
                     });
                 }
