@@ -63,18 +63,8 @@
 
     <repositories>
         <repository>
-            <id>spigotmc-repo</id>
-            <url>https://hub.spigotmc.org/nexus/content/repositories/snapshots/</url>
-        </repository>
-
-        <repository>
             <id>screaming-repo</id>
             <url>https://repo.screamingsandals.org/</url>
-        </repository>
-
-        <repository>
-            <id>placeholderapi</id>
-            <url>https://repo.extendedclip.com/content/repositories/placeholderapi/</url>
         </repository>
 
         <repository>
@@ -85,36 +75,27 @@
 
     <dependencies>
         <dependency>
-            <groupId>org.bukkit</groupId>
-            <artifactId>bukkit</artifactId>
-            <version>1.12.2-R0.1-SNAPSHOT</version>
+            <groupId>com.destroystokyo.paper</groupId>
+            <artifactId>paper-api</artifactId>
+            <version>1.15.2-R0.1-SNAPSHOT</version>
             <scope>provided</scope>
         </dependency>
-        <dependency>
-            <groupId>me.clip</groupId>
-            <artifactId>placeholderapi</artifactId>
-            <version>2.10.6</version>
-            <scope>provided</scope>
-        </dependency>
-
-        <dependency>
-            <groupId>org.screamingsandals.bedwars</groupId>
-            <artifactId>BedWars</artifactId>
-            <version>0.2.10-SNAPSHOT</version>
-            <scope>provided</scope>
-        </dependency>
-
         <dependency>
             <groupId>org.screamingsandals.simpleinventories</groupId>
             <artifactId>SimpleInventories-Core</artifactId>
             <version>1.0.4-SNAPSHOT</version>
             <scope>provided</scope>
         </dependency>
-
         <dependency>
             <groupId>org.screamingsandals.bedwars</groupId>
             <artifactId>BedWars-API</artifactId>
-            <version>0.2.10-SNAPSHOT</version>
+            <version>0.2.10</version>
+            <scope>provided</scope>
+        </dependency>
+        <dependency>
+            <groupId>org.screamingsandals.bedwars</groupId>
+            <artifactId>BedWars</artifactId>
+            <version>0.2.10</version>
             <scope>provided</scope>
         </dependency>
     </dependencies>

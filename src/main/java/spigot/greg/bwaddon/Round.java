@@ -1,0 +1,58 @@
+package spigot.greg.bwaddon;
+
+import org.screamingsandals.bedwars.api.game.Game;
+
+import java.util.ArrayList;
+import java.util.List;
+
+public class Round {
+    private Phase phase;
+    private List<Round> dependsOn = new ArrayList<>();
+    private List<TournamentTeam> teams = new ArrayList<>();
+    private boolean running = false;
+    private boolean finalRound;
+    private Game runningGame;
+    private Round nextRound;
+
+    public Round(Phase phase, Game runningGame, boolean finalRound) {
+        this.phase = phase;
+        this.runningGame = runningGame;
+        this.finalRound = finalRound;
+    }
+
+    public void addDependency(Round round) {
+        if (!dependsOn.contains(round)) {
+            dependsOn.add(round);
+        }
+    }
+
+    public void addTeam(TournamentTeam team) {
+        if (!teams.contains(team)) {
+            teams.add(team);
+        }
+    }
+
+    public boolean isRunning() {
+        return running;
+    }
+
+    public void setRunning(boolean running) {
+        this.running = running;
+    }
+
+    public boolean isFinalRound() {
+        return finalRound;
+    }
+
+    public Game getRunningGame() {
+        return runningGame;
+    }
+
+    public Phase getPhase() {
+        return phase;
+    }
+
+    public Round getNextRound() {
+        return nextRound;
+    }
+}
