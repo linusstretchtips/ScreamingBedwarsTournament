@@ -13,11 +13,16 @@ public class Round {
     private boolean finalRound;
     private Game runningGame;
     private Round nextRound;
+    private TournamentTeam winner;
 
     public Round(Phase phase, Game runningGame, boolean finalRound) {
         this.phase = phase;
         this.runningGame = runningGame;
         this.finalRound = finalRound;
+    }
+
+    public List<TournamentTeam> getTeams() {
+        return teams;
     }
 
     public void addDependency(Round round) {
@@ -58,5 +63,13 @@ public class Round {
 
     public void setNextRound(Round nextRound) {
         this.nextRound = nextRound;
+    }
+
+    public TournamentTeam getWinner() {
+        return winner;
+    }
+
+    public void setWinner(TournamentTeam winner) {
+        this.winner = winner;
     }
 }

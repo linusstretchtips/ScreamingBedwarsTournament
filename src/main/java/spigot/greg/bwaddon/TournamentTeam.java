@@ -1,6 +1,5 @@
 package spigot.greg.bwaddon;
 
-import org.screamingsandals.bedwars.api.RunningTeam;
 import org.screamingsandals.bedwars.api.game.Game;
 
 import java.util.*;
@@ -14,7 +13,7 @@ public class TournamentTeam {
         this.teamName = teamName;
     }
 
-    public RunningTeam currentInGameTeam;
+    public String currentInGameTeam;
     public Game currentGame;
 
     public void addPlayer(UUID player) {

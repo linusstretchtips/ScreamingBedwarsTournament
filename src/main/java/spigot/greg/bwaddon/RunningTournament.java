@@ -1,6 +1,8 @@
 package spigot.greg.bwaddon;
 
+import org.bukkit.Bukkit;
 import org.screamingsandals.bedwars.api.BedwarsAPI;
+import org.screamingsandals.bedwars.utils.Title;
 
 import java.util.*;
 
@@ -78,5 +80,22 @@ public class RunningTournament {
                 }
             }
         }
+
+        Bukkit.getOnlinePlayers().forEach(player -> {
+            Title.send(player, "§aWelcome on BedWars tournament", "§cIf you are part of some team, join to the game now via the NPC on the spawn");
+            tournament.getTeams().forEach(tournamentTeam -> {
+                if (tournamentTeam.getPlayers().contains(player.getUniqueId())) {
+                    player.sendMessage("§6[BW Tournament] §aYou joined the tournament with team §7" + tournamentTeam.getTeamName());
+                    String players = "";
+                    for (UUID uuid : tournamentTeam.getPlayers()) {
+                        if (!players.equals("")) {
+                            players += ", ";
+                        }
+                        players += Bukkit.getPlayer(uuid).getName();
+                    }
+                    player.sendMessage("§6[BW Tournament] §aTeam members: §7" + players);
+                }
+            });
+        });
     }
 }
