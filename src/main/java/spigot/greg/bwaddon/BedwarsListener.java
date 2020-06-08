@@ -41,7 +41,7 @@ public class BedwarsListener implements Listener {
                                 for (Team team : game.getAvailableTeams()) {
                                     boolean isFree = true;
                                     for (TournamentTeam t : round.getTeams()) {
-                                        if (t.currentInGameTeam.equals(team.getName())) {
+                                        if (t.currentInGameTeam != null && t.currentInGameTeam.equals(team.getName())) {
                                             isFree = false;
                                             break;
                                         }

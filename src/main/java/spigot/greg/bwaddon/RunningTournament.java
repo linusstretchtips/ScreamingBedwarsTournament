@@ -57,6 +57,7 @@ public class RunningTournament {
                         index = 0;
                     }
                     roundListByPhase.get(phase).get(index).addTeam(team);
+                    index++;
                 }
             } else {
                 Phase parent = tournament.getPhase(phase.getParentPhase());
@@ -74,12 +75,12 @@ public class RunningTournament {
                         roundListByPhase.put(phase, new ArrayList<>());
                     }
                     roundListByPhase.get(phase).add(round);
-                    for (int j = arenaPos; j < (arenaPos + phase.getTeams()); j++) {
+                    for (int j = parentRoundPos; j < (parentRoundPos + phase.getTeams()); j++) {
                         Round round1 = roundListByPhase.get(parent).get(j);
                         round.addDependency(round1);
                         round1.setNextRound(round);
                     }
-                    arenaPos += phase.getTeams();
+                    parentRoundPos += phase.getTeams();
                 }
             }
         }
