@@ -86,59 +86,59 @@ public class AdminCommands extends BaseCommand {
                     return true;
                 } else if (list.get(0).equalsIgnoreCase("phase") && list.size() > 2) {
                     if (list.get(1).equalsIgnoreCase("add")) {
-                        if (!BwAddon.getTournament().hasPhase(list.get(1))) {
-                            BwAddon.getTournament().addPhase(new Phase(list.get(1)));
-                            commandSender.sendMessage("§aNew phase is here:§7 " + list.get(1));
+                        if (!BwAddon.getTournament().hasPhase(list.get(2))) {
+                            BwAddon.getTournament().addPhase(new Phase(list.get(2)));
+                            commandSender.sendMessage("§aNew phase is here:§7 " + list.get(2));
                         } else {
-                            commandSender.sendMessage("§cThis phase already exists:§7 " + list.get(1));
+                            commandSender.sendMessage("§cThis phase already exists:§7 " + list.get(2));
                         }
                         return true;
                     } else if (list.get(1).equalsIgnoreCase("addarena") && list.size() > 3) {
-                        if (BwAddon.getTournament().hasPhase(list.get(1))) {
-                            BwAddon.getTournament().getPhase(list.get(1)).addPossibleArena(list.get(2));
-                            commandSender.sendMessage("§aArena §7" + list.get(2) + "§a was added to the phase: §7" + list.get(1));
+                        if (BwAddon.getTournament().hasPhase(list.get(2))) {
+                            BwAddon.getTournament().getPhase(list.get(2)).addPossibleArena(list.get(3));
+                            commandSender.sendMessage("§aArena §7" + list.get(3) + "§a was added to the phase: §7" + list.get(2));
                         } else {
-                            commandSender.sendMessage("§cThis phase has never been in this tournament:§7 " + list.get(1));
+                            commandSender.sendMessage("§cThis phase has never been in this tournament:§7 " + list.get(2));
                         }
                         return true;
                     } else if (list.get(1).equalsIgnoreCase("removearena") && list.size() > 3) {
-                        if (BwAddon.getTournament().hasPhase(list.get(1))) {
-                            BwAddon.getTournament().getPhase(list.get(1)).removePossibleArena(list.get(2));
-                            commandSender.sendMessage("§aArena §7" + list.get(2) + "§a was removed from the phase: §7" + list.get(1));
+                        if (BwAddon.getTournament().hasPhase(list.get(2))) {
+                            BwAddon.getTournament().getPhase(list.get(2)).removePossibleArena(list.get(3));
+                            commandSender.sendMessage("§aArena §7" + list.get(3) + "§a was removed from the phase: §7" + list.get(2));
                         } else {
-                            commandSender.sendMessage("§cThis phase has never been in this tournament:§7 " + list.get(1));
+                            commandSender.sendMessage("§cThis phase has never been in this tournament:§7 " + list.get(2));
                         }
                         return true;
                     } else if (list.get(1).equalsIgnoreCase("parent") && list.size() > 3) {
-                        if (BwAddon.getTournament().hasPhase(list.get(1))) {
-                            BwAddon.getTournament().getPhase(list.get(1)).setParentPhase(list.get(2));
-                            commandSender.sendMessage("§aParent phase for phase §7" + list.get(1) + "§a is now §7" + list.get(2));
+                        if (BwAddon.getTournament().hasPhase(list.get(2))) {
+                            BwAddon.getTournament().getPhase(list.get(2)).setParentPhase(list.get(3));
+                            commandSender.sendMessage("§aParent phase for phase §7" + list.get(2) + "§a is now §7" + list.get(3));
                         } else {
-                            commandSender.sendMessage("§cThis phase has never been in this tournament:§7 " + list.get(1));
+                            commandSender.sendMessage("§cThis phase has never been in this tournament:§7 " + list.get(2));
                         }
                         return true;
                     } else if (list.get(1).equalsIgnoreCase("teams") && list.size() > 3) {
-                        if (BwAddon.getTournament().hasPhase(list.get(1))) {
-                            BwAddon.getTournament().getPhase(list.get(1)).setTeams(Integer.parseInt(list.get(2)));
-                            commandSender.sendMessage("§aMaximum teams number was set to §7" + list.get(2) + "§a for phase §7" + list.get(1));
+                        if (BwAddon.getTournament().hasPhase(list.get(2))) {
+                            BwAddon.getTournament().getPhase(list.get(2)).setTeams(Integer.parseInt(list.get(3)));
+                            commandSender.sendMessage("§aMaximum teams number was set to §7" + list.get(3) + "§a for phase §7" + list.get(2));
                         } else {
-                            commandSender.sendMessage("§cThis phase has never been in this tournament:§7 " + list.get(1));
+                            commandSender.sendMessage("§cThis phase has never been in this tournament:§7 " + list.get(2));
                         }
                         return true;
                     } else if (list.get(1).equalsIgnoreCase("remove")) {
-                        if (BwAddon.getTournament().hasPhase(list.get(1))) {
-                            BwAddon.getTournament().removePhase(BwAddon.getTournament().getPhase(list.get(1)));
-                            commandSender.sendMessage("§aThis phase was removed (note that you should update parents manually):§7 " + list.get(1));
+                        if (BwAddon.getTournament().hasPhase(list.get(2))) {
+                            BwAddon.getTournament().removePhase(BwAddon.getTournament().getPhase(list.get(2)));
+                            commandSender.sendMessage("§aThis phase was removed (note that you should update parents manually):§7 " + list.get(2));
                         } else {
-                            commandSender.sendMessage("§cThis phase has never been in this tournament:§7 " + list.get(1));
+                            commandSender.sendMessage("§cThis phase has never been in this tournament:§7 " + list.get(2));
                         }
                         return true;
                     } else if (list.get(1).equalsIgnoreCase("nophase")) {
-                        if (BwAddon.getTournament().hasPhase(list.get(1))) {
-                            BwAddon.getTournament().getPhase(list.get(1)).setParentPhase(null);
-                            commandSender.sendMessage("§aNow phase don't have any parent:§7 " + list.get(1));
+                        if (BwAddon.getTournament().hasPhase(list.get(2))) {
+                            BwAddon.getTournament().getPhase(list.get(2)).setParentPhase(null);
+                            commandSender.sendMessage("§aNow phase don't have any parent:§7 " + list.get(2));
                         } else {
-                            commandSender.sendMessage("§cThis phase has never been in this tournament:§7 " + list.get(1));
+                            commandSender.sendMessage("§cThis phase has never been in this tournament:§7 " + list.get(2));
                         }
                         return true;
                     }

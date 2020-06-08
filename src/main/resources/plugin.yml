@@ -1,12 +1,11 @@
 name: BedwarsAddon
 version: ${project.version}
 main: spigot.greg.bwaddon.BwAddon
-authors: [PuRe_Greg]
-depend: [Bedwars]
+authors: [PuRe_Greg, Misat11]
+depend: [BedWars]
+api-version: 1.13
 commands:
-  customshopgui:
-        description: OpenscustomShop
-        usage: /customshopgui
-        permission: tournament
-        permission-message: HEY!, Sorry but you Havnt got Permission to do this Yet!
+  jointournamentround:
+    description: Joins you to the round
+    usage: /jointournamentround
 

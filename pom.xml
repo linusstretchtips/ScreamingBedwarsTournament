@@ -19,7 +19,6 @@
     <build>
         <resources>
             <resource>
-                <targetPath>Main</targetPath>
                 <filtering>true</filtering>
                 <directory>src/main/resources</directory>
                 <includes>
@@ -39,14 +38,6 @@
                         <goals>
                             <goal>shade</goal>
                         </goals>
-                        <configuration>
-                            <relocations>
-                                <relocation>
-                                    <pattern>org.screamingsandals.simpleinventories</pattern>
-                                    <shadedPattern>org.screamingsandals.bedwars.lib.sgui</shadedPattern>
-                                </relocation>
-                            </relocations>
-                        </configuration>
                     </execution>
                 </executions>
             </plugin>
@@ -78,12 +69,6 @@
             <groupId>com.destroystokyo.paper</groupId>
             <artifactId>paper-api</artifactId>
             <version>1.15.2-R0.1-SNAPSHOT</version>
-            <scope>provided</scope>
-        </dependency>
-        <dependency>
-            <groupId>org.screamingsandals.simpleinventories</groupId>
-            <artifactId>SimpleInventories-Core</artifactId>
-            <version>1.0.4-SNAPSHOT</version>
             <scope>provided</scope>
         </dependency>
         <dependency>

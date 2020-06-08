@@ -1,8 +1,10 @@
 package spigot.greg.bwaddon;
 
 import org.bukkit.Bukkit;
+import org.bukkit.entity.Player;
 import org.screamingsandals.bedwars.api.BedwarsAPI;
 import org.screamingsandals.bedwars.api.game.Game;
+import org.screamingsandals.bedwars.api.game.GameStatus;
 import org.screamingsandals.bedwars.utils.Title;
 
 import java.util.*;
@@ -127,5 +129,23 @@ public class RunningTournament {
             }
         }
         return null;
+    }
+
+    public void findGameFor(Player player) {
+        for (Round round : currentlyRunningRounds) {
+            if (round.getRunningGame().getStatus() == GameStatus.WAITING) {
+                for (TournamentTeam team : round.getTeams()) {
+                    if (team.getPlayers().contains(player.getUniqueId())) {
+                        Title.send(player, "§aGame found", "§eYou are now teleported to §7" + round.getRunningGame().getName());
+                        player.sendMessage("§6[BW Tournament] §eYou are now teleported to §7" + round.getRunningGame().getName());
+                        Bukkit.getScheduler().runTaskLater(BwAddon.getInstance(), () -> {
+                            round.getRunningGame().joinToGame(player);
+                        }, 10L);
+                        return;
+                    }
+                }
+            }
+        }
+        player.sendMessage("§6[BW Tournament] §cWe couldn't found any match for you! Look in chat and wait for message for your team!");
     }
 }
