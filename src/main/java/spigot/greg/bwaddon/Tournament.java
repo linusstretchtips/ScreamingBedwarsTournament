@@ -1,13 +1,17 @@
 package spigot.greg.bwaddon;
 
+import org.bukkit.Bukkit;
+import org.screamingsandals.bedwars.api.BedwarsAPI;
+import org.screamingsandals.bedwars.api.game.Game;
+
 import java.util.ArrayList;
 import java.util.List;
 
 public class Tournament {
     private String name = "Tournament";
     private List<TournamentTeam> teams = new ArrayList<>();
-    private boolean active = false;
     private List<Phase> phases = new ArrayList<>();
+    private RunningTournament runningTournament = null;
 
     public String getName() {
         return name;
@@ -43,11 +47,11 @@ public class Tournament {
     }
 
     public boolean isActive() {
-        return active;
+        return runningTournament != null;
     }
 
-    public void setActive(boolean active) {
-        this.active = active;
+    public List<Phase> getPhases() {
+        return phases;
     }
 
     public void addPhase(Phase phase) {
@@ -77,5 +81,23 @@ public class Tournament {
 
     public void setName(String name) {
         this.name = name;
+    }
+
+    public void startTournament() {
+        runningTournament = new RunningTournament(this);
+    }
+
+    public void stopTournament() {
+        runningTournament = null;
+        Bukkit.getOnlinePlayers().forEach(player -> {
+            Game game = BedwarsAPI.getInstance().getGameOfPlayer(player);
+            if (game != null) {
+                game.leaveFromGame(player);
+            }
+        });
+    }
+
+    public RunningTournament getRunningTournament() {
+        return runningTournament;
     }
 }

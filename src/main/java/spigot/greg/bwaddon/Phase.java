@@ -5,9 +5,10 @@ import java.util.List;
 
 public class Phase {
     private String codeName;
-    private String parentPhase;
-    private int teams;
+    private String parentPhase = null;
+    private int teams = 4;
     private List<String> possibleArenas = new ArrayList<>();
+    public int calculatedRemainingTeams;
 
     public Phase(String codeName) {
         this.codeName = codeName;

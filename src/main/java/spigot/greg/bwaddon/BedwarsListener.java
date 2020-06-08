@@ -6,6 +6,7 @@ import org.bukkit.event.server.PluginEnableEvent;
 import org.screamingsandals.bedwars.api.events.BedwarsGameEndingEvent;
 import org.screamingsandals.bedwars.api.events.BedwarsGameTickEvent;
 import org.screamingsandals.bedwars.api.events.BedwarsPlayerJoinEvent;
+import org.screamingsandals.bedwars.api.events.BedwarsPostRebuildingEvent;
 
 public class BedwarsListener implements Listener {
     @EventHandler
@@ -30,6 +31,11 @@ public class BedwarsListener implements Listener {
 
     @EventHandler
     public void onGameTick(BedwarsGameTickEvent event) {
+
+    }
+
+    @EventHandler
+    public void afterRebuild(BedwarsPostRebuildingEvent event) {
 
     }
 }

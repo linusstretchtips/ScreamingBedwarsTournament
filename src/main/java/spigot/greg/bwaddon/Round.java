@@ -55,4 +55,8 @@ public class Round {
     public Round getNextRound() {
         return nextRound;
     }
+
+    public void setNextRound(Round nextRound) {
+        this.nextRound = nextRound;
+    }
 }
