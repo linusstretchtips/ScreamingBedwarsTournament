@@ -1,0 +1,30 @@
+lang_name: "English"
+prefix: "§6[BW Tournament]"
+
+title_start: "§aWelcome on %tournament%"
+title_start_sub: "§cIf you are part of some team, join to the game now via the NPC on the spawn"
+
+joined: "§aYou joined the tournament with team §7%team%"
+members: "§aTeam members: §7%members%"
+
+why_are_you_here: "§6You are not part of this round! You can return while game is running as spectator!"
+
+welcome_in_team: "§aWelcome in tournament match! You will be connected to team: §7%team%"
+
+won: "§aCongratulations! Your team won the match and can continue!"
+
+tournament_won: "§aTeam §7%team%§a won this tournament!"
+tournament_heroes: "§aHeroes of this tournament: §7%winners%"
+
+self_promote_one: "§cThank you for visiting this tournament! If you are insterested in this tournaments,"
+self_promote_two: "§cyou can support us on our patreon: §7https://www.patreon.com/screamingsandals"
+self_promote_three: "§3Scream!"
+
+no_match_for_you_yet: "§cWe couldn't found any match for you! Look in chat and wait for message for your team!"
+
+new_round: "§aNew round is available! Waiting for: §7%teams%"
+new_round_title: "§aNew round is available!"
+new_round_subtitle: "Join to the game now via tne NPC on the spawn!"
+
+game_found: "§aGame found"
+game_found_tp: "§eYou are now teleported to §7%game%"

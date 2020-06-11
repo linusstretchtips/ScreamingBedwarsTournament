@@ -14,22 +14,24 @@ import org.screamingsandals.bedwars.utils.Title;
 import java.util.ArrayList;
 import java.util.UUID;
 
+import static spigot.greg.bwaddon.I18n.*;
+
 public class BedwarsListener implements Listener {
     @EventHandler
     public void onPlayerJoin(PlayerJoinEvent event) {
         if (BwAddon.getTournament().isActive()) {
-            Title.send(event.getPlayer(), "§aWelcome on " + BwAddon.getTournament().getName(), "§cIf you are part of some team, join to the game now via the NPC on the spawn");
+            Title.send(event.getPlayer(), i18nonly("title_start").replace("%tournament%", BwAddon.getTournament().getName()), i18nonly("title_start_sub"));
             BwAddon.getTournament().getTeams().forEach(tournamentTeam -> {
                 if (tournamentTeam.getPlayers().contains(event.getPlayer().getUniqueId())) {
-                    event.getPlayer().sendMessage("§6[BW Tournament] §aYou joined the tournament with team §7" + tournamentTeam.getTeamName());
+                    mpr("joined").replace("team", tournamentTeam.getTeamName()).send(event.getPlayer());
                     String players = "";
                     for (UUID uuid : tournamentTeam.getPlayers()) {
                         if (!players.equals("")) {
                             players += ", ";
                         }
-                        players += Bukkit.getPlayer(uuid).getName();
+                        players += Bukkit.getOfflinePlayer(uuid).getName();
                     }
-                    event.getPlayer().sendMessage("§6[BW Tournament] §aTeam members: §7" + players);
+                    mpr("members").replace("members", players).send(event.getPlayer());
                 }
             });
         }
@@ -52,12 +54,12 @@ public class BedwarsListener implements Listener {
             RunningTournament tournament = BwAddon.getTournament().getRunningTournament();
             tournament.currentlyRunningRounds.forEach(round -> {
                 if (round.getRunningGame() == event.getGame()) {
-                    event.setCancelMessage("§6You are not part of this round! You can return while game is running as spectator!");
+                    event.setCancelMessage(i18nonly("why_are_you_here"));
                     event.setCancelled(true);
                     round.getTeams().forEach(tournamentTeam -> {
                         if (tournamentTeam.getPlayers().contains(event.getPlayer().getUniqueId())) {
                             event.setCancelled(false);
-                            event.getPlayer().sendMessage("§6[BW Tournament] §aWelcome in tournament match! You will be connected to team: " + tournamentTeam.getTeamName());
+                            mpr("welcome_in_team").replace("team", tournamentTeam.getTeamName()).send(event.getPlayer());
                             if (tournamentTeam.currentInGameTeam == null) {
                                 for (Team team : game.getAvailableTeams()) {
                                     boolean isFree = true;
@@ -112,21 +114,21 @@ public class BedwarsListener implements Listener {
                         if (t.currentInGameTeam != null && t.currentInGameTeam.equals(event.getWinningTeam().getName())) {
                             round.setWinner(t);
                             t.getPlayers().forEach(uuid -> {
-                                Bukkit.getPlayer(uuid).sendMessage("§6[BW Tournament] §aCongratulations! Your team won the match and can continue!");
+                                mpr("won").send(Bukkit.getPlayer(uuid));
                             });
                             if (round.isFinalRound()) {
-                                Bukkit.broadcastMessage("§6[BW Tournament] §aTeam §7" + t.getTeamName() + "§a won this tournament!");
+                                Bukkit.broadcastMessage(i18n("tournament_won").replace("%team%", t.getTeamName()));
                                 String players = "";
                                 for (UUID uuid : t.getPlayers()) {
                                     if (!players.equals("")) {
                                         players += ", ";
                                     }
-                                    players += Bukkit.getPlayer(uuid).getName();
+                                    players += Bukkit.getOfflinePlayer(uuid).getName();
                                 }
-                                Bukkit.broadcastMessage("§6[BW Tournament] §aHeroes of this tournament: §7" + players);
-                                Bukkit.broadcastMessage("§6[BW Tournament] §cThank you for visiting this tournament! If you are insterested in this tournaments,");
-                                Bukkit.broadcastMessage("§6[BW Tournament] §cyou can support us on our patreon: §7https://www.patreon.com/screamingsandals");
-                                Bukkit.broadcastMessage("§3Scream!");
+                                Bukkit.broadcastMessage(i18n("tournament_heroes").replace("%winners%", players));
+                                Bukkit.broadcastMessage(i18nonly("self_promote_one"));
+                                Bukkit.broadcastMessage(i18nonly("self_promote_two"));
+                                Bukkit.broadcastMessage(i18nonly("self_promote_three"));
                             }
                         }
                         t.currentGame = null;

@@ -9,6 +9,8 @@ import org.screamingsandals.bedwars.utils.Title;
 
 import java.util.*;
 
+import static spigot.greg.bwaddon.I18n.*;
+
 public class RunningTournament {
     public List<Round> roundList = new ArrayList<>();
     public Map<Phase, List<Round>> roundListByPhase = new HashMap<>();
@@ -87,18 +89,18 @@ public class RunningTournament {
         roundList.forEach(System.out::println);
 
         Bukkit.getOnlinePlayers().forEach(player -> {
-            Title.send(player, "§aWelcome on " + tournament.getName(), "§cIf you are part of some team, join to the game now via the NPC on the spawn");
+            Title.send(player, i18nonly("title_start").replace("%tournament%", BwAddon.getTournament().getName()), i18nonly("title_start_sub"));
             tournament.getTeams().forEach(tournamentTeam -> {
                 if (tournamentTeam.getPlayers().contains(player.getUniqueId())) {
-                    player.sendMessage("§6[BW Tournament] §aYou joined the tournament with team §7" + tournamentTeam.getTeamName());
+                    mpr("joined").replace("team", tournamentTeam.getTeamName()).send(player);
                     String players = "";
                     for (UUID uuid : tournamentTeam.getPlayers()) {
                         if (!players.equals("")) {
                             players += ", ";
                         }
-                        players += Bukkit.getPlayer(uuid).getName();
+                        players += Bukkit.getOfflinePlayer(uuid).getName();
                     }
-                    player.sendMessage("§6[BW Tournament] §aTeam members: §7" + players);
+                    mpr("members").replace("members", players).send(player);
                 }
             });
         });
@@ -120,13 +122,22 @@ public class RunningTournament {
                 currentlyRunningRounds.add(round);
                 round.resolveDependencies();
                 String teams = "";
+                List<Player> players = new ArrayList<>();
                 for (TournamentTeam team : round.getTeams()) {
                     if (!teams.equals("")) {
                         teams += ", ";
                     }
                     teams += team.getTeamName();
+                    Bukkit.getScheduler().runTaskLater(BwAddon.getInstance(), () -> {
+                        team.getPlayers().forEach(uuid -> {
+                            Player player = Bukkit.getPlayer(uuid);
+                            if (player != null) {
+                                    Title.send(player, i18nonly("new_round_title"), i18nonly("new_round_subtitle"));
+                            }
+                        });
+                    }, 20L);
                 }
-                Bukkit.broadcastMessage("§6[BW Tournament] §aNew round is available! Waiting for: " + teams);
+                Bukkit.broadcastMessage(i18n("new_round").replace("%teams%", teams));
             }
         }
 
@@ -152,16 +163,16 @@ public class RunningTournament {
             if (round.getRunningGame().getStatus() == GameStatus.WAITING) {
                 for (TournamentTeam team : round.getTeams()) {
                     if (team.getPlayers().contains(player.getUniqueId())) {
-                        Title.send(player, "§aGame found", "§eYou are now teleported to §7" + round.getRunningGame().getName());
-                        player.sendMessage("§6[BW Tournament] §eYou are now teleported to §7" + round.getRunningGame().getName());
+                        round.getRunningGame().joinToGame(player);
+                        mpr("game_found_tp").replace("game", round.getRunningGame().getName()).send(player);
                         Bukkit.getScheduler().runTaskLater(BwAddon.getInstance(), () -> {
-                            round.getRunningGame().joinToGame(player);
-                        }, 10L);
+                            Title.send(player, i18nonly("game_found"), i18nonly("game_found_tp").replace("%game%", round.getRunningGame().getName()));
+                        }, 30L);
                         return;
                     }
                 }
             }
         }
-        player.sendMessage("§6[BW Tournament] §cWe couldn't found any match for you! Look in chat and wait for message for your team!");
+        mpr("no_match_for_you_yet").send(player);
     }
 }

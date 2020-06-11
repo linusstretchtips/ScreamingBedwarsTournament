@@ -1,6 +1,7 @@
 package spigot.greg.bwaddon;
 
 import org.bukkit.plugin.java.JavaPlugin;
+import org.screamingsandals.bedwars.Main;
 import spigot.greg.bwaddon.gameSelectNpc.GameSelector;
 
 public final class BwAddon extends JavaPlugin {
@@ -14,6 +15,7 @@ public final class BwAddon extends JavaPlugin {
         getServer().getPluginManager().registerEvents(new BedwarsListener(), this);
         new AdminCommands();
         getCommand("jointournamentround").setExecutor(new GameSelector());
+        I18n.load(this, Main.getConfigurator().config.getString("locale"));
     }
 
     @Override
