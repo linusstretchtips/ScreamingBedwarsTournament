@@ -66,7 +66,7 @@ public class AdminCommands extends BaseCommand {
                     if (BwAddon.getTournament().hasTeam(list.get(1))) {
                         OfflinePlayer player = Bukkit.getOfflinePlayer(list.get(2));
                         BwAddon.getTournament().getTeam(list.get(1)).addPlayer(player.getUniqueId());
-                        commandSender.sendMessage("§cMotherfucker §7" + player.getName() + " (" + player.getUniqueId() + ") is now part of team §7" + list.get(1));
+                        commandSender.sendMessage("§aMotherfucker §7" + player.getName() + " (" + player.getUniqueId() + ") §ais now part of team §7" + list.get(1));
                     } else {
                         commandSender.sendMessage("§cThese motherfuckers have never been in this tournament:§7 " + list.get(1));
                     }
@@ -75,7 +75,7 @@ public class AdminCommands extends BaseCommand {
                     if (BwAddon.getTournament().hasTeam(list.get(1))) {
                         OfflinePlayer player = Bukkit.getOfflinePlayer(list.get(2));
                         BwAddon.getTournament().getTeam(list.get(1)).removePlayer(player.getUniqueId());
-                        commandSender.sendMessage("§cMotherfucker §7" + player.getName() + " (" + player.getUniqueId() + ") is no longer part of team §7" + list.get(1));
+                        commandSender.sendMessage("§aMotherfucker §7" + player.getName() + " (" + player.getUniqueId() + ") §ais no longer part of team §7" + list.get(1));
                     } else {
                         commandSender.sendMessage("§cThese motherfuckers have never been in this tournament:§7 " + list.get(1));
                     }
