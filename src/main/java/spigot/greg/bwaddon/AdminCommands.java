@@ -3,10 +3,14 @@ package spigot.greg.bwaddon;
 import org.bukkit.Bukkit;
 import org.bukkit.OfflinePlayer;
 import org.bukkit.command.CommandSender;
+import org.bukkit.entity.Player;
+import org.screamingsandals.bedwars.api.BedwarsAPI;
+import org.screamingsandals.bedwars.api.game.Game;
 import org.screamingsandals.bedwars.commands.BaseCommand;
 
 import java.util.Arrays;
 import java.util.List;
+import java.util.stream.Collectors;
 
 public class AdminCommands extends BaseCommand {
 
@@ -173,9 +177,29 @@ public class AdminCommands extends BaseCommand {
             } else {
                 completion.addAll(Arrays.asList("name", "addteam", "join", "leave", "removeteam", "start", "clear", "phase", "save", "load"));
             }
-        } else if (!BwAddon.getTournament().isActive() && args.size() > 1) {
-            if (args.get(0).equalsIgnoreCase("phase")) {
+        } else if (!BwAddon.getTournament().isActive()) {
+            if (args.get(0).equalsIgnoreCase("phase") && args.size() == 2) {
                 completion.addAll(Arrays.asList("add", "addarena", "removearena", "parent", "teams", "remove", "noparent"));
+            } else if (args.get(0).equalsIgnoreCase("phase") && args.size() == 3 && !args.get(1).equalsIgnoreCase("add")) {
+                completion.addAll(BwAddon.getTournament().getPhases().stream().map(Phase::getCodeName).collect(Collectors.toList()));
+            } else if ((args.get(0).equalsIgnoreCase("join") || args.get(0).equalsIgnoreCase("leave") || args.get(0).equalsIgnoreCase("remove")) && args.size() == 2) {
+                completion.addAll(BwAddon.getTournament().getTeams().stream().map(TournamentTeam::getTeamName).collect(Collectors.toList()));
+            } else if (args.get(0).equalsIgnoreCase("join") && args.size() == 3) {
+                completion.addAll(Bukkit.getOnlinePlayers().stream().map(Player::getName).collect(Collectors.toList()));
+            } else if (args.get(0).equalsIgnoreCase("leave") && args.size() == 3) {
+                if (BwAddon.getTournament().getTeam(args.get(1)) != null) {
+                    completion.addAll(BwAddon.getTournament().getTeam(args.get(1)).getPlayers().stream().map(uuid -> Bukkit.getOfflinePlayer(uuid).getName()).collect(Collectors.toList()));
+                }
+            } else if (args.get(0).equalsIgnoreCase("phase") && args.get(1).equalsIgnoreCase("parent") && args.size() == 4) {
+                completion.addAll(BwAddon.getTournament().getPhases().stream().map(Phase::getCodeName).filter(str -> !str.equals(args.get(2))).collect(Collectors.toList()));
+            } else if (args.get(0).equalsIgnoreCase("phase") && args.get(1).equalsIgnoreCase("addarena") && args.size() == 4) {
+                completion.addAll(BedwarsAPI.getInstance().getGames().stream().map(Game::getName).collect(Collectors.toList()));
+            } else if (args.get(0).equalsIgnoreCase("phase") && args.get(1).equalsIgnoreCase("removearena") && args.size() == 4) {
+                if (BwAddon.getTournament().getPhase(args.get(2)) != null) {
+                    completion.addAll(BwAddon.getTournament().getPhase(args.get(2)).getPossibleArenas());
+                }
+            } else if (args.get(0).equalsIgnoreCase("phase") && args.get(1).equalsIgnoreCase("teams") && args.size() == 4) {
+                completion.addAll(Arrays.asList("2", "4", "8"));
             }
         }
     }
