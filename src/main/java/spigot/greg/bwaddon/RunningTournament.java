@@ -86,7 +86,7 @@ public class RunningTournament {
         }
 
         Bukkit.getOnlinePlayers().forEach(player -> {
-            Title.send(player, "§aWelcome on BedWars tournament", "§cIf you are part of some team, join to the game now via the NPC on the spawn");
+            Title.send(player, "§aWelcome on " + tournament.getName(), "§cIf you are part of some team, join to the game now via the NPC on the spawn");
             tournament.getTeams().forEach(tournamentTeam -> {
                 if (tournamentTeam.getPlayers().contains(player.getUniqueId())) {
                     player.sendMessage("§6[BW Tournament] §aYou joined the tournament with team §7" + tournamentTeam.getTeamName());

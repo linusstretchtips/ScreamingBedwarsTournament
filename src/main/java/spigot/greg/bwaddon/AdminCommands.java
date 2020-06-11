@@ -34,7 +34,7 @@ public class AdminCommands extends BaseCommand {
             commandSender.sendMessage("/bw tournament stop - Stops the tournament");
             commandSender.sendMessage("/bw tournament clear - Clears tournament settings");
             commandSender.sendMessage("/bw tournament forceRoundLoad - If something went wrong and tournament just stops, use this command!");
-            commandSender.sendMessage("TODO: ability to save tournament for restoring it later");
+            commandSender.sendMessage("/bw tournament save and /bw tournament load");
             return true;
         } else if (list.size() >= 1) {
             if (BwAddon.getTournament().isActive()) {
@@ -152,9 +152,11 @@ public class AdminCommands extends BaseCommand {
                     commandSender.sendMessage("§aTournament settings was removed and reverted!");
                     return true;
                 } else if (list.get(0).equalsIgnoreCase("save")) {
-                    // implement this
-                } else if (list.get(0).equalsIgnoreCase("reload")) {
-                    // implement this
+                    BwAddon.getTournament().save();
+                    commandSender.sendMessage("§aTournament saved!");
+                } else if (list.get(0).equalsIgnoreCase("load")) {
+                    BwAddon.getTournament().load();
+                    commandSender.sendMessage("§aTournament loaded!");
                 }
             }
         }
@@ -167,7 +169,7 @@ public class AdminCommands extends BaseCommand {
             if (BwAddon.getTournament().isActive()) {
                 completion.addAll(Arrays.asList("stop", "forceRoundLoad"));
             } else {
-                completion.addAll(Arrays.asList("name", "addteam", "join", "leave", "removeteam", "start", "clear", "phase"));
+                completion.addAll(Arrays.asList("name", "addteam", "join", "leave", "removeteam", "start", "clear", "phase", "save", "load"));
             }
         } else if (!BwAddon.getTournament().isActive() && args.size() > 1) {
             if (args.get(0).equalsIgnoreCase("phase")) {

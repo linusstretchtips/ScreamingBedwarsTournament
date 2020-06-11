@@ -7,7 +7,6 @@ import java.util.*;
 public class TournamentTeam {
     private String teamName;
     private List<UUID> players = new ArrayList<>();
-    private boolean alive = true;
 
     public TournamentTeam(String teamName) {
         this.teamName = teamName;
@@ -26,14 +25,6 @@ public class TournamentTeam {
 
     public List<UUID> getPlayers() {
         return players;
-    }
-
-    public boolean isAlive() {
-        return alive;
-    }
-
-    public void setAlive(boolean alive) {
-        this.alive = alive;
     }
 
     public String getTeamName() {
