@@ -154,9 +154,11 @@ public class AdminCommands extends BaseCommand {
                 } else if (list.get(0).equalsIgnoreCase("save")) {
                     BwAddon.getTournament().save();
                     commandSender.sendMessage("§aTournament saved!");
+                    return true;
                 } else if (list.get(0).equalsIgnoreCase("load")) {
                     BwAddon.getTournament().load();
                     commandSender.sendMessage("§aTournament loaded!");
+                    return true;
                 }
             }
         }

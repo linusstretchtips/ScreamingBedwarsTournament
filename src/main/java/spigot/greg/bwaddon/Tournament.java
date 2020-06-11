@@ -133,7 +133,9 @@ public class Tournament {
         for (TournamentTeam team : this.teams) {
             Map<String, Object> map = new HashMap<>();
             map.put("name", team.getTeamName());
-            map.put("players", team.getPlayers());
+            List<String> players = new ArrayList<>();
+            team.getPlayers().forEach(uuid -> players.add(uuid.toString()));
+            map.put("player", players);
             teamsList.add(map);
         }
         configMap.set("teams", teamsList);
