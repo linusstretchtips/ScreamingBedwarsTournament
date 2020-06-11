@@ -88,4 +88,18 @@ public class Round {
             addTeam(parent.getWinner());
         }
     }
+
+    @Override
+    public String toString() {
+        return "Round{" +
+                "phase=" + phase +
+                ", dependsOn=" + dependsOn +
+                ", teams=" + teams +
+                ", running=" + running +
+                ", finalRound=" + finalRound +
+                ", runningGame=" + runningGame +
+                ", winner=" + winner +
+                ", calculatedPlayers=" + calculatedPlayers +
+                '}';
+    }
 }

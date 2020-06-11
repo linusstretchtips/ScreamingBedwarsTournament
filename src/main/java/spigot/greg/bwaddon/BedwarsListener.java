@@ -3,16 +3,38 @@ package spigot.greg.bwaddon;
 import org.bukkit.Bukkit;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
+import org.bukkit.event.player.PlayerJoinEvent;
 import org.bukkit.event.server.PluginEnableEvent;
 import org.screamingsandals.bedwars.api.Team;
 import org.screamingsandals.bedwars.api.events.*;
 import org.screamingsandals.bedwars.api.game.Game;
 import org.screamingsandals.bedwars.api.game.GameStatus;
+import org.screamingsandals.bedwars.utils.Title;
 
 import java.util.ArrayList;
 import java.util.UUID;
 
 public class BedwarsListener implements Listener {
+    @EventHandler
+    public void onPlayerJoin(PlayerJoinEvent event) {
+        if (BwAddon.getTournament().isActive()) {
+            Title.send(event.getPlayer(), "§aWelcome on " + BwAddon.getTournament().getName(), "§cIf you are part of some team, join to the game now via the NPC on the spawn");
+            BwAddon.getTournament().getTeams().forEach(tournamentTeam -> {
+                if (tournamentTeam.getPlayers().contains(event.getPlayer().getUniqueId())) {
+                    event.getPlayer().sendMessage("§6[BW Tournament] §aYou joined the tournament with team §7" + tournamentTeam.getTeamName());
+                    String players = "";
+                    for (UUID uuid : tournamentTeam.getPlayers()) {
+                        if (!players.equals("")) {
+                            players += ", ";
+                        }
+                        players += Bukkit.getPlayer(uuid).getName();
+                    }
+                    event.getPlayer().sendMessage("§6[BW Tournament] §aTeam members: §7" + players);
+                }
+            });
+        }
+    }
+
     @EventHandler
     public void onBWEnable(PluginEnableEvent event) {
         if (event.getPlugin().getName().equals("BedWars")) {

@@ -84,6 +84,7 @@ public class RunningTournament {
                 }
             }
         }
+        roundList.forEach(System.out::println);
 
         Bukkit.getOnlinePlayers().forEach(player -> {
             Title.send(player, "§aWelcome on " + tournament.getName(), "§cIf you are part of some team, join to the game now via the NPC on the spawn");
@@ -106,6 +107,13 @@ public class RunningTournament {
     }
 
     public void runAllPossibleMatches() {
+        System.out.println("Waiting rounds:");
+        roundList.forEach(System.out::println);
+        System.out.println("Running rounds:");
+        currentlyRunningRounds.forEach(System.out::println);
+        System.out.println("Finished rounds:");
+        finishedRounds.forEach(System.out::println);
+
         for (Round round : new ArrayList<>(roundList)) {
             if (round.couldRun() && getGameRound(round.getRunningGame()) == null) {
                 roundList.remove(round);
@@ -121,6 +129,13 @@ public class RunningTournament {
                 Bukkit.broadcastMessage("§6[BW Tournament] §aNew round is available! Waiting for: " + teams);
             }
         }
+
+        System.out.println("Waiting rounds:");
+        roundList.forEach(System.out::println);
+        System.out.println("Running rounds:");
+        currentlyRunningRounds.forEach(System.out::println);
+        System.out.println("Finished rounds:");
+        finishedRounds.forEach(System.out::println);
     }
 
     public Round getGameRound(Game game) {
