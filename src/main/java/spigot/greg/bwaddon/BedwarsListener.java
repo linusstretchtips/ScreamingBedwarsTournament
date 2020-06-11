@@ -92,7 +92,7 @@ public class BedwarsListener implements Listener {
                 if (round.getRunningGame() == event.getGame()) {
                     round.getTeams().forEach(tournamentTeam -> {
                         if (tournamentTeam.getPlayers().contains(event.getPlayer().getUniqueId())) {
-                            if (tournamentTeam.currentInGameTeam != null && !tournamentTeam.currentInGameTeam.equals(event.getTeam().getName())) {
+                            if (tournamentTeam.currentInGameTeam != null && event.getTeam() != null && !tournamentTeam.currentInGameTeam.equals(event.getTeam().getName())) {
                                 event.setCancelled(true);
                             }
                         }
@@ -109,7 +109,7 @@ public class BedwarsListener implements Listener {
             new ArrayList<>(tournament.currentlyRunningRounds).forEach(round -> {
                 if (round.getRunningGame() == event.getGame()) {
                     for (TournamentTeam t : round.getTeams()) {
-                        if (t.currentInGameTeam.equals(event.getWinningTeam().getName())) {
+                        if (t.currentInGameTeam != null && t.currentInGameTeam.equals(event.getWinningTeam().getName())) {
                             round.setWinner(t);
                             t.getPlayers().forEach(uuid -> {
                                 Bukkit.getPlayer(uuid).sendMessage("§6[BW Tournament] §aCongratulations! Your team won the match and can continue!");

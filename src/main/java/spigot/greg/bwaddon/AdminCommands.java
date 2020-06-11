@@ -76,7 +76,7 @@ public class AdminCommands extends BaseCommand {
                         commandSender.sendMessage("§cThese motherfuckers have never been in this tournament:§7 " + list.get(1));
                     }
                     return true;
-                } else if (list.get(0).equalsIgnoreCase("removeteam") && list.size() > 2) {
+                } else if (list.get(0).equalsIgnoreCase("removeteam")) {
                     if (BwAddon.getTournament().hasTeam(list.get(1))) {
                         BwAddon.getTournament().removeTeam(BwAddon.getTournament().getTeam(list.get(1)));
                         commandSender.sendMessage("§aThese motherfuckers are no longer playing this tournament:§7 " + list.get(1));
