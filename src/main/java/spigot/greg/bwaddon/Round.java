@@ -14,7 +14,6 @@ public class Round {
     private Game runningGame;
     private Round nextRound;
     private TournamentTeam winner;
-    public int calculatedPlayers = 0;
 
     public Round(Phase phase, Game runningGame, boolean finalRound) {
         this.phase = phase;
@@ -74,6 +73,14 @@ public class Round {
         this.winner = winner;
     }
 
+    public int getCalculatedPlayers() {
+        int calc = 0;
+        for (TournamentTeam team : teams) {
+            calc += team.getPlayers().size();
+        }
+        return calc;
+    }
+
     public boolean couldRun() {
         for (Round parent : dependsOn) {
             if (parent.getWinner() == null) {
@@ -99,7 +106,6 @@ public class Round {
                 ", finalRound=" + finalRound +
                 ", runningGame=" + runningGame +
                 ", winner=" + winner +
-                ", calculatedPlayers=" + calculatedPlayers +
                 '}';
     }
 }

@@ -149,13 +149,28 @@ public class BedwarsListener implements Listener {
                 RunningTournament tournament = BwAddon.getTournament().getRunningTournament();
                 tournament.currentlyRunningRounds.forEach(round -> {
                     if (round.getRunningGame() == event.getGame()) {
-                        if (event.getGame().countConnectedPlayers() < round.calculatedPlayers) {
+                        if (event.getGame().countConnectedPlayers() < round.getCalculatedPlayers()) {
                             event.setNextCountdown(event.getGame().getLobbyCountdown());
                             event.setNextStatus(GameStatus.WAITING);
+                        } else if (event.getCountdown() > 10) {
+                            event.setNextCountdown(10);
                         }
                     }
                 });
             }
+        }
+    }
+
+    @EventHandler
+    public void onOpeningTeamSelection(BedwarsOpenTeamSelectionEvent event) {
+        if (BwAddon.getTournament().isActive()) {
+            RunningTournament tournament = BwAddon.getTournament().getRunningTournament();
+            tournament.currentlyRunningRounds.forEach(round -> {
+                if (round.getRunningGame() == event.getGame()) {
+                    event.setCancelled(true);
+                    mpr("you_cant_select_team").send(event.getPlayer());
+                }
+            });
         }
     }
 

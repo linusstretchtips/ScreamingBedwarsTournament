@@ -28,3 +28,7 @@ new_round_subtitle: "Join to the game now via tne NPC on the spawn!"
 
 game_found: "§aGame found"
 game_found_tp: "§eYou are now teleported to §7%game%"
+
+offline: "§cTournament is not running right now!"
+
+you_cant_select_team: "§cYou can't select another team while tournament is running!"
