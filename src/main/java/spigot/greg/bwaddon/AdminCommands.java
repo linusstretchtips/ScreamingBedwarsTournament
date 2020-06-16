@@ -22,23 +22,28 @@ public class AdminCommands extends BaseCommand {
     public boolean execute(CommandSender commandSender, List<String> list) {
         if (list.size() == 0 || (list.size() == 1 && list.get(0).equalsIgnoreCase("help"))) {
             commandSender.sendMessage("Tournament help:");
-            commandSender.sendMessage("/bw tournament name <name> - Sets tournament name");
-            commandSender.sendMessage("/bw tournament addteam <name> - Adds new team to the tournament");
-            commandSender.sendMessage("/bw tournament join <team> <player> - Adds player to the team in tournament");
-            commandSender.sendMessage("/bw tournament leave <team> <player> - Removes player from the team in tournament");
-            commandSender.sendMessage("/bw tournament removeteam <name> - Removes team in tournament");
-            commandSender.sendMessage("/bw tournament phase add <code name> - Adds phase");
-            commandSender.sendMessage("/bw tournament phase addarena <code name> <arena> - Adds arena to phase");
-            commandSender.sendMessage("/bw tournament phase removearena <code name> <arena> - Removes arena to phase");
-            commandSender.sendMessage("/bw tournament phase parent <code name> <parent code name> - Sets parent phase (if no phase is parent, this is first phase)");
-            commandSender.sendMessage("/bw tournament phase noparent <code name> - Removes parent phase (only one phase must be without parent");
-            commandSender.sendMessage("/bw tournament phase teams <code name> <teams> - Sets number of teams per game");
-            commandSender.sendMessage("/bw tournament phase remove <code name> - Removes phase");
-            commandSender.sendMessage("/bw tournament start - Starts the tournament");
-            commandSender.sendMessage("/bw tournament stop - Stops the tournament");
-            commandSender.sendMessage("/bw tournament clear - Clears tournament settings");
-            commandSender.sendMessage("/bw tournament forceRoundLoad - If something went wrong and tournament just stops, use this command!");
-            commandSender.sendMessage("/bw tournament save and /bw tournament load");
+            if (!BwAddon.getTournament().isActive()) {
+                commandSender.sendMessage("/bw tournament name <name> - Sets tournament name");
+                commandSender.sendMessage("/bw tournament addteam <name> - Adds new team to the tournament");
+                commandSender.sendMessage("/bw tournament join <team> <player> - Adds player to the team in tournament");
+                commandSender.sendMessage("/bw tournament leave <team> <player> - Removes player from the team in tournament");
+                commandSender.sendMessage("/bw tournament removeteam <name> - Removes team in tournament");
+                commandSender.sendMessage("/bw tournament phase add <code name> - Adds phase");
+                commandSender.sendMessage("/bw tournament phase addarena <code name> <arena> - Adds arena to phase");
+                commandSender.sendMessage("/bw tournament phase removearena <code name> <arena> - Removes arena to phase");
+                commandSender.sendMessage("/bw tournament phase parent <code name> <parent code name> - Sets parent phase (if no phase is parent, this is first phase)");
+                commandSender.sendMessage("/bw tournament phase noparent <code name> - Removes parent phase (only one phase must be without parent");
+                commandSender.sendMessage("/bw tournament phase teams <code name> <teams> - Sets number of teams per game");
+                commandSender.sendMessage("/bw tournament phase remove <code name> - Removes phase");
+                commandSender.sendMessage("/bw tournament start - Starts the tournament");
+                commandSender.sendMessage("/bw tournament clear - Clears tournament settings");
+                commandSender.sendMessage("/bw tournament save - Save the config");
+                commandSender.sendMessage("/bw tournament load - Reload the config");
+            } else {
+                commandSender.sendMessage("/bw tournament forceRoundLoad - If something went wrong and tournament just stops, use this command!");
+                commandSender.sendMessage("/bw tournament status - Shows you current tournament status");
+                commandSender.sendMessage("/bw tournament stop - Stops the tournament");
+            }
             return true;
         } else if (list.size() >= 1) {
             if (BwAddon.getTournament().isActive()) {
@@ -47,6 +52,9 @@ public class AdminCommands extends BaseCommand {
                     return true;
                 } else if (list.get(0).equalsIgnoreCase("forceRoundLoad")) {
                     BwAddon.getTournament().getRunningTournament().runAllPossibleMatches();
+                    return true;
+                } else if (list.get(0).equalsIgnoreCase("status")) {
+                    BwAddon.getTournament().getRunningTournament().sendStatus(commandSender);
                     return true;
                 }
             } else {
@@ -173,7 +181,7 @@ public class AdminCommands extends BaseCommand {
     public void completeTab(List<String> completion, CommandSender commandSender, List<String> args) {
         if (args.size() == 1) {
             if (BwAddon.getTournament().isActive()) {
-                completion.addAll(Arrays.asList("stop", "forceRoundLoad"));
+                completion.addAll(Arrays.asList("stop", "forceRoundLoad", "status"));
             } else {
                 completion.addAll(Arrays.asList("name", "addteam", "join", "leave", "removeteam", "start", "clear", "phase", "save", "load"));
             }

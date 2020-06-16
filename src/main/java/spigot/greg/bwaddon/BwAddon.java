@@ -12,6 +12,7 @@ public final class BwAddon extends JavaPlugin {
     public void onEnable() {
         plugin = this;
         tournament = new Tournament();
+        tournament.load();
         getServer().getPluginManager().registerEvents(new BedwarsListener(), this);
         new AdminCommands();
         getCommand("jointournamentround").setExecutor(new GameSelector());
@@ -20,7 +21,7 @@ public final class BwAddon extends JavaPlugin {
 
     @Override
     public void onDisable() {
-
+        Main.getCommands().remove("tournament");
     }
 
     public static BwAddon getInstance() {

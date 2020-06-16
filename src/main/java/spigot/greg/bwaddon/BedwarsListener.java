@@ -1,10 +1,12 @@
 package spigot.greg.bwaddon;
 
 import org.bukkit.Bukkit;
+import org.bukkit.Sound;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.player.PlayerJoinEvent;
 import org.bukkit.event.server.PluginEnableEvent;
+import org.screamingsandals.bedwars.Main;
 import org.screamingsandals.bedwars.api.Team;
 import org.screamingsandals.bedwars.api.events.*;
 import org.screamingsandals.bedwars.api.game.Game;
@@ -32,6 +34,7 @@ public class BedwarsListener implements Listener {
                         players += Bukkit.getOfflinePlayer(uuid).getName();
                     }
                     mpr("members").replace("members", players).send(event.getPlayer());
+                    event.getPlayer().playSound(event.getPlayer().getLocation(), Sound.ENTITY_PLAYER_LEVELUP, 1, 1);
                 }
             });
         }

@@ -1,6 +1,8 @@
 package spigot.greg.bwaddon;
 
 import org.bukkit.Bukkit;
+import org.bukkit.Sound;
+import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 import org.screamingsandals.bedwars.api.BedwarsAPI;
 import org.screamingsandals.bedwars.api.game.Game;
@@ -101,6 +103,7 @@ public class RunningTournament {
                         players += Bukkit.getOfflinePlayer(uuid).getName();
                     }
                     mpr("members").replace("members", players).send(player);
+                    player.playSound(player.getLocation(), Sound.ENTITY_PLAYER_LEVELUP, 1, 1);
                 }
             });
         });
@@ -109,13 +112,6 @@ public class RunningTournament {
     }
 
     public void runAllPossibleMatches() {
-        System.out.println("Waiting rounds:");
-        roundList.forEach(System.out::println);
-        System.out.println("Running rounds:");
-        currentlyRunningRounds.forEach(System.out::println);
-        System.out.println("Finished rounds:");
-        finishedRounds.forEach(System.out::println);
-
         for (Round round : new ArrayList<>(roundList)) {
             if (round.couldRun() && getGameRound(round.getRunningGame()) == null) {
                 roundList.remove(round);
@@ -140,13 +136,6 @@ public class RunningTournament {
                 Bukkit.broadcastMessage(i18n("new_round").replace("%teams%", teams));
             }
         }
-
-        System.out.println("Waiting rounds:");
-        roundList.forEach(System.out::println);
-        System.out.println("Running rounds:");
-        currentlyRunningRounds.forEach(System.out::println);
-        System.out.println("Finished rounds:");
-        finishedRounds.forEach(System.out::println);
     }
 
     public Round getGameRound(Game game) {
@@ -167,6 +156,7 @@ public class RunningTournament {
                         mpr("game_found_tp").replace("game", round.getRunningGame().getName()).send(player);
                         Bukkit.getScheduler().runTaskLater(BwAddon.getInstance(), () -> {
                             Title.send(player, i18nonly("game_found"), i18nonly("game_found_tp").replace("%game%", round.getRunningGame().getName()));
+                            player.playSound(player.getLocation(), Sound.ENTITY_PLAYER_DEATH, 1, 1);
                         }, 30L);
                         return;
                     }
@@ -174,5 +164,56 @@ public class RunningTournament {
             }
         }
         mpr("no_match_for_you_yet").send(player);
+    }
+
+    public void sendStatus(CommandSender sender) {
+        sender.sendMessage("§cWaiting rounds:");
+        int i = 0;
+        for (Round round : roundList) {
+            sender.sendMessage("§7" + i + ": §c" + round.getPhase().getCodeName() + ", §4" + round.getRunningGame().getName());
+            String string = "";
+            for (TournamentTeam team : round.getTeams()) {
+                if (string.equalsIgnoreCase("")) {
+                    string += "§8- ";
+                } else {
+                    string += "§f, ";
+                }
+                string += "§c" + team.getTeamName();
+            }
+            sender.sendMessage(string);
+            i++;
+        }
+        sender.sendMessage("§eRunning rounds:");
+        i = 0;
+        for (Round round : currentlyRunningRounds) {
+            sender.sendMessage("§7" + i + ": §e" + round.getPhase().getCodeName() + ", §4" + round.getRunningGame().getName());
+            String string = "";
+            for (TournamentTeam team : round.getTeams()) {
+                if (string.equalsIgnoreCase("")) {
+                    string += "§8- ";
+                } else {
+                    string += "§f, ";
+                }
+                string += "§c" + team.getTeamName();
+            }
+            sender.sendMessage(string);
+            i++;
+        }
+        sender.sendMessage("§aFinished rounds:");
+        i = 0;
+        for (Round round : finishedRounds) {
+            sender.sendMessage("§7" + i + ": §a" + round.getPhase().getCodeName() + ", §4" + round.getRunningGame().getName());
+            String string = "";
+            for (TournamentTeam team : round.getTeams()) {
+                if (string.equalsIgnoreCase("")) {
+                    string += "§8- ";
+                } else {
+                    string += "§f, ";
+                }
+                string += "§c" + team.getTeamName();
+            }
+            sender.sendMessage(string);
+            i++;
+        }
     }
 }
