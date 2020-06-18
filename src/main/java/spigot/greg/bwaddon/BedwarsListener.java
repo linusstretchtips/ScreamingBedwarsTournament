@@ -11,6 +11,7 @@ import org.screamingsandals.bedwars.api.Team;
 import org.screamingsandals.bedwars.api.events.*;
 import org.screamingsandals.bedwars.api.game.Game;
 import org.screamingsandals.bedwars.api.game.GameStatus;
+import org.screamingsandals.bedwars.lib.lang.Message;
 import org.screamingsandals.bedwars.utils.Title;
 
 import java.util.ArrayList;
@@ -132,6 +133,16 @@ public class BedwarsListener implements Listener {
                                 Bukkit.broadcastMessage(i18nonly("self_promote_one"));
                                 Bukkit.broadcastMessage(i18nonly("self_promote_two"));
                                 Bukkit.broadcastMessage(i18nonly("self_promote_three"));
+
+                                String msg = i18n("tournament_won").replace("%team%", t.getTeamName());
+                                final String p = players;
+                                Bukkit.getScheduler().runTaskLater(Main.getInstance(), () -> {
+                                    Bukkit.getOnlinePlayers().forEach(player -> {
+                                        Title.send(player, msg, p);
+                                        player.playSound(player.getLocation(), Sound.ENTITY_FIREWORK_ROCKET_LAUNCH, 1, 1);
+                                    });
+                                }, 20L);
+
                             }
                         }
                         t.currentGame = null;

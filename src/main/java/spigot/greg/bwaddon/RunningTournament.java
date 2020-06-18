@@ -156,7 +156,7 @@ public class RunningTournament {
                         mpr("game_found_tp").replace("game", round.getRunningGame().getName()).send(player);
                         Bukkit.getScheduler().runTaskLater(BwAddon.getInstance(), () -> {
                             Title.send(player, i18nonly("game_found"), i18nonly("game_found_tp").replace("%game%", round.getRunningGame().getName()));
-                            player.playSound(player.getLocation(), Sound.ENTITY_PLAYER_DEATH, 1, 1);
+                            player.playSound(player.getLocation(), Sound.ENTITY_GHAST_SCREAM, 1, 1);
                         }, 30L);
                         return;
                     }
