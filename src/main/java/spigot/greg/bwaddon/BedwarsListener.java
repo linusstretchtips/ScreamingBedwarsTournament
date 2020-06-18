@@ -152,7 +152,7 @@ public class BedwarsListener implements Listener {
                 RunningTournament tournament = BwAddon.getTournament().getRunningTournament();
                 tournament.currentlyRunningRounds.forEach(round -> {
                     if (round.getRunningGame() == event.getGame()) {
-                        if (event.getGame().countConnectedPlayers() < round.getCalculatedPlayers()) {
+                        if (event.getGame().countConnectedPlayers() < round.getCalculatedPlayers() && !round.isForce()) {
                             event.setNextCountdown(event.getGame().getLobbyCountdown());
                             event.setNextStatus(GameStatus.WAITING);
                         } else if (event.getCountdown() > 10) {

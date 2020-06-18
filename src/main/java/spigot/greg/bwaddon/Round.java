@@ -14,6 +14,7 @@ public class Round {
     private Game runningGame;
     private Round nextRound;
     private TournamentTeam winner;
+    private boolean force = false;
 
     public Round(Phase phase, Game runningGame, boolean finalRound) {
         this.phase = phase;
@@ -71,6 +72,14 @@ public class Round {
 
     public void setWinner(TournamentTeam winner) {
         this.winner = winner;
+    }
+
+    public void setForce(boolean force) {
+        this.force = force;
+    }
+
+    public boolean isForce() {
+        return force;
     }
 
     public int getCalculatedPlayers() {

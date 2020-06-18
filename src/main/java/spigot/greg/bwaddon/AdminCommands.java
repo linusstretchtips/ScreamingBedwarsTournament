@@ -41,6 +41,7 @@ public class AdminCommands extends BaseCommand {
                 commandSender.sendMessage("/bw tournament load - Reload the config");
             } else {
                 commandSender.sendMessage("/bw tournament forceRoundLoad - If something went wrong and tournament just stops, use this command!");
+                commandSender.sendMessage("/bw tournament forceRound <number> - This will run the tournament round waiting in lobby");
                 commandSender.sendMessage("/bw tournament status - Shows you current tournament status");
                 commandSender.sendMessage("/bw tournament stop - Stops the tournament");
             }
@@ -55,6 +56,10 @@ public class AdminCommands extends BaseCommand {
                     return true;
                 } else if (list.get(0).equalsIgnoreCase("status")) {
                     BwAddon.getTournament().getRunningTournament().sendStatus(commandSender);
+                    return true;
+                } else if (list.get(0).equalsIgnoreCase("forceRound") && list.size() > 1) {
+                    BwAddon.getTournament().getRunningTournament().forceRoundInLobby(Integer.parseInt(list.get(1)));
+                    commandSender.sendMessage("§aRound " + list.get(1) + " is going to run even not all users are joined in!");
                     return true;
                 }
             } else {

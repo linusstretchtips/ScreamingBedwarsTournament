@@ -166,6 +166,14 @@ public class RunningTournament {
         mpr("no_match_for_you_yet").send(player);
     }
 
+    public boolean forceRoundInLobby(int round) {
+        if (round >= 0 && round < currentlyRunningRounds.size()) {
+            currentlyRunningRounds.get(round).setForce(true);
+            return true;
+        }
+        return false;
+    }
+
     public void sendStatus(CommandSender sender) {
         sender.sendMessage("§cWaiting rounds:");
         int i = 0;
@@ -186,7 +194,7 @@ public class RunningTournament {
         sender.sendMessage("§eRunning rounds:");
         i = 0;
         for (Round round : currentlyRunningRounds) {
-            sender.sendMessage("§7" + i + ": §e" + round.getPhase().getCodeName() + ", §4" + round.getRunningGame().getName());
+            sender.sendMessage("§7" + i + ": §e" + round.getPhase().getCodeName() + ", §4" + round.getRunningGame().getName() + ", §a" + round.getRunningGame().getStatus());
             String string = "";
             for (TournamentTeam team : round.getTeams()) {
                 if (string.equalsIgnoreCase("")) {
