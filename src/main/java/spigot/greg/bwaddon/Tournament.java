@@ -177,7 +177,7 @@ public class Tournament {
         teams.clear();
         for (Map<String, Object> map : (List<Map<String, Object>>) configMap.getList("teams")) {
             TournamentTeam team = new TournamentTeam(map.get("name").toString());
-            for (String uuid : (List<String>) map.get("players")) {
+            for (String uuid : (List<String>) map.get("player")) {
                 team.addPlayer(UUID.fromString(uuid));
             }
             teams.add(team);

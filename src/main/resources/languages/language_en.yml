@@ -20,7 +20,7 @@ self_promote_one: "§cThank you for visiting this tournament! If you are instere
 self_promote_two: "§cyou can support us on our patreon: §7https://www.patreon.com/screamingsandals"
 self_promote_three: "§3Scream!"
 
-no_match_for_you_yet: "§cWe couldn't found any match for you! Look in chat and wait for message for your team!"
+no_match_for_you_yet: "§cNo match is prepared for you yet! Look in chat and wait for message for your team!"
 
 new_round: "§aNew round is available! Waiting for: §7%teams%"
 new_round_title: "§aNew round is available!"
